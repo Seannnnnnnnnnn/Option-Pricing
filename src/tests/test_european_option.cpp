@@ -1,9 +1,67 @@
-#include <iostream>
+#include <gtest/gtest.h>
 #include "../european_option.h"
+#include "../option_type.h"
 
+// TODO: fix these unit tests - they just have dummy values for now.
 
-int main() {
-    EuropeanOption option(10.0, 8.0, 0.041, 1.5, 0.5, OptionType::Call);
-    std::cout<<"call price: " << option.price() << std::endl;
-    std::cout<<"call delta: " << option.delta() << std::endl;
+class EuropeanCallOptionTest : public ::testing::Test {
+protected:
+    // Set up the test environment, initializing values for the European Call Option
+    void SetUp() override {
+        strike_ = 100.0;
+        underlying_ = 110.0;
+        r_ = 0.05;
+        T_ = 1.0;
+        sigma_ = 0.2;
+        option_ = new EuropeanOption(strike_, underlying_, r_, T_, sigma_, OptionType::Call);
+    }
+
+    // Tear down the environment after each test
+    void TearDown() override {
+        delete option_;
+    }
+
+    double strike_;
+    double underlying_;
+    double r_;
+    double T_;
+    double sigma_;
+    OptionBase* option_;
+};
+
+// Test pricing
+TEST_F(EuropeanCallOptionTest, PriceTest) {
+    // Expected price calculated manually or via a reference
+    double expected_price = 10.4506;  // You can replace this with an actual expected price
+    EXPECT_NEAR(option_->price(), expected_price, 0.0001);
+}
+
+// Test Delta
+TEST_F(EuropeanCallOptionTest, DeltaTest) {
+    double expected_delta = 0.7881;  // You can replace this with an actual expected value
+    EXPECT_NEAR(option_->delta(), expected_delta, 0.0001);
+}
+
+// Test Gamma
+TEST_F(EuropeanCallOptionTest, GammaTest) {
+    double expected_gamma = 0.0284;  // You can replace this with an actual expected value
+    EXPECT_NEAR(option_->gamma(), expected_gamma, 0.0001);
+}
+
+// Test Theta
+TEST_F(EuropeanCallOptionTest, ThetaTest) {
+    double expected_theta = -6.1367;  // You can replace this with an actual expected value
+    EXPECT_NEAR(option_->theta(), expected_theta, 0.0001);
+}
+
+// Test Rho
+TEST_F(EuropeanCallOptionTest, RhoTest) {
+    double expected_rho = 47.98;  // You can replace this with an actual expected value
+    EXPECT_NEAR(option_->rho(), expected_rho, 0.01);
+}
+
+// Test Vega
+TEST_F(EuropeanCallOptionTest, VegaTest) {
+    double expected_vega = 39.6862;  // You can replace this with an actual expected value
+    EXPECT_NEAR(option_->vega(), expected_vega, 0.0001);
 }

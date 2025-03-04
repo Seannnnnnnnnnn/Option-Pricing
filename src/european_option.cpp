@@ -1,5 +1,6 @@
 #include "european_option.h"
 #include <cmath>
+// TODO: refactor the below functions to all use the getter methods 
 
 double EuropeanOption::price() const {
     // returns option price via black scholes & put-call parity

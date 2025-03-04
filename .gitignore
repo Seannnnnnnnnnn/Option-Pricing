@@ -1,0 +1,10 @@
+# Ignore build directories
+/build/
+**/build/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore other IDEs or OS-specific files
+.DS_Store
+.idea/
