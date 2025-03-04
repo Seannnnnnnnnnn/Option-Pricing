@@ -14,6 +14,7 @@ class OptionBase
         OptionType type_; 
 
         double normalCDF(double x) const;  // internal method for normal CDF
+        double normalPDF(double x) const;  // internal method for normal PDF
 
     public: 
         OptionBase(double strike, double underlying, double r, double T, double sigma, OptionType type) : 

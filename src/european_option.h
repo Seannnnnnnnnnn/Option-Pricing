@@ -11,4 +11,10 @@ class EuropeanOption : OptionBase
             OptionBase(strike, underlying, r, T, sigma, type) {}
 
         virtual double price() const override; 
+        
+        virtual double delta() const override;
+        virtual double gamma() const override;
+        virtual double theta() const override;
+        virtual double vega() const override;
+        virtual double rho() const override;
 };  
