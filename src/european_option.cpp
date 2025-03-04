@@ -36,17 +36,14 @@ double EuropeanOption::gamma() const {
 
 
 double EuropeanOption::theta() const {
-    double S = getUnderlying();
-    double K = getStrike();
-    double r = getR();
-    double T = getT();
-    double sigma = getSigma();
-    double d1 = (std::log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * std::sqrt(T));
-    double d2 = d1 - sigma * std::sqrt(T);
 
-    double term1 = -S * normalPDF(d1) * sigma / (2 * std::sqrt(T));
-    double term2 = r * K * std::exp(-r * T) * normalCDF(d2);
-    
+    double S_ = underlying_, K_ = strike_;
+
+    double d1 = (std::log(S_ / K_) + (r_ + 0.5 * sigma_ * sigma_) * T_) / (sigma_ * std::sqrt(T_));
+    double d2 = d1 - sigma_ * std::sqrt(T_);
+    double term1 = -(S_ * normalPDF(d1) * sigma_) / (2 * std::sqrt(T_));
+    double term2 = r_ * K_ * std::exp(-r_ * T_) * normalCDF(d2);
+        
     return (getType() == OptionType::Call) ? term1 - term2 : term1 + term2;
 }
 
