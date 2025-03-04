@@ -13,7 +13,7 @@ class Option
         double sigma_;
         bool isCall_;
 
-        double N(double x, double mean = 0.0, double stdev = 1.0) const;  // internal method for normal CDF
+        double N(double x, double mean, double stddev) const;  // internal method for normal CDF
 
     public:
         Option(double Strike, double r, double T, double S, double sigma, bool isCall) : 
