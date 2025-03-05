@@ -25,7 +25,7 @@ protected:
     double r_;
     double T_;
     double sigma_;
-    OptionBase* option_;
+    Option* option_;
 };
 
 // Test pricing

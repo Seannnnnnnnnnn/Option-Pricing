@@ -1,39 +1,42 @@
-/* base class that all Options inheret from */
+/* 
+base class that all Options inheret from. Note that the option class represents the Option contract, 
+and does not contian any logic related to pricing or volatility.
+
+Pricing and volatility logic is contained in the PricingEngine which is passed to contract.
+*/
 #pragma once
 #include "option_type.h"
+#include "pricing-engines/pricing_engine_base.h"
 
 
-class OptionBase 
+class Option 
 {
     protected: 
         double strike_;
-        double underlying_;
         double r_;
         double T_; 
-        double sigma_; 
         OptionType type_; 
-
-        double normalCDF(double x) const;  // internal method for normal CDF
-        double normalPDF(double x) const;  // internal method for normal PDF
+        PricingEngine* pricingEngine_;
 
     public: 
-        OptionBase(double strike, double underlying, double r, double T, double sigma, OptionType type) : 
-            strike_(strike), underlying_(underlying), r_(r), T_(T), sigma_(sigma), type_(type) {}
+        Option(double strike, double r, double T, OptionType type, PricingEngine* pricingEngine) : 
+            strike_(strike), r_(r), T_(T), type_(type), pricingEngine_(pricingEngine) {}
 
-        virtual ~OptionBase() {}; 
-
-        virtual double delta() const = 0;
-        virtual double gamma() const = 0;
-        virtual double theta() const = 0;
-        virtual double rho() const = 0;
-        virtual double vega() const = 0;
-
-        virtual double price() const = 0;  // abstract pricing function to be implemented 
+        virtual ~Option() {}; 
 
         double getStrike() const { return strike_; }
-        double getUnderlying() const { return underlying_; }
         double getR() const { return r_; }
         double getT() const { return T_; }
-        double getSigma() const { return sigma_; }
         OptionType getType() const { return type_; }
+        
+        PricingEngine* getPricingEngine() const { return pricingEngine_; } 
+        void setPricingEngine(PricingEngine* pricingEngine) { pricingEngine_ = pricingEngine; }
+        
+        // overlays for the pricing engine
+        double price(double S, double t) const { return pricingEngine_->price(*this, S, t); }
+        double delta(double S, double t) const { return pricingEngine_->delta(*this, S, t); }
+        double gamma(double S, double t) const { return pricingEngine_->gamma(*this, S, t); }
+        double theta(double S, double t) const { return pricingEngine_->theta(*this, S, t); }
+        double vega(double S, double t) const { return pricingEngine_->vega(*this, S, t); }
+        double rho(double S, double t) const { return pricingEngine_->rho(*this, S, t); }
 };
