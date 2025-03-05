@@ -5,6 +5,8 @@ and does not contian any logic related to pricing or volatility.
 Pricing and volatility logic is contained in the PricingEngine which is passed to contract.
 */
 #pragma once
+#include <memory>
+#include "payoff.h"
 #include "option_type.h"
 #include "pricing-engines/pricing_engine_base.h"
 
@@ -16,10 +18,11 @@ class Option
         double T_; 
         OptionType type_; 
         PricingEngine* pricingEngine_;
+        std::unique_ptr<PayOff> payOff_;  // payoff function needed for Monte-Carlo based pricing engines
 
     public: 
         Option(double strike, double r, double T, OptionType type, PricingEngine* pricingEngine) : 
-            strike_(strike), r_(r), T_(T), type_(type), pricingEngine_(pricingEngine) {}
+            strike_(strike), r_(r), T_(T), type_(type), pricingEngine_(pricingEngine), payOff_(nullptr) {}
 
         virtual ~Option() {}; 
 
@@ -38,4 +41,7 @@ class Option
         double theta(double S, double t) const { return pricingEngine_->theta(*this, S, t); }
         double vega(double S, double t) const { return pricingEngine_->vega(*this, S, t); }
         double rho(double S, double t) const { return pricingEngine_->rho(*this, S, t); }
+
+        // overlays for the payoff function
+        double getPayoff(double S) { return (*payOff_)(S); }
 };

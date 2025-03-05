@@ -84,12 +84,8 @@ double BlackScholesPricingEngine::rho(const Option& option, double S, double t) 
     OptionType type = option.getType();
 
     double d2 = (log(S / K) + (r - 0.5 * sigma * sigma) * (T - t)) / (sigma * sqrt(T - t));
-
-    if (type == OptionType::Call) {
-        return K * (T - t) * exp(-r * (T - t)) * stdNormalCDF(d2);
-    } else { // Put option
-        return -K * (T - t) * exp(-r * (T - t)) * stdNormalCDF(-d2);
-    }
+    
+    return (type == OptionType::Call) ? K * (T - t) * exp(-r * (T - t)) * stdNormalCDF(d2) : -K * (T - t) * exp(-r * (T - t)) * stdNormalCDF(-d2);
 }
 
 
