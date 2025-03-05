@@ -8,7 +8,6 @@ Pricing and volatility logic is contained in the PricingEngine which is passed t
 #include "option_type.h"
 #include "pricing-engines/pricing_engine_base.h"
 
-
 class Option 
 {
     protected: 

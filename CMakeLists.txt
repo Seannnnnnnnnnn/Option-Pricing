@@ -1,22 +1,44 @@
+# Minimum CMake version required
 cmake_minimum_required(VERSION 3.10)
 
-project(OptionPricing VERSION 1.0)
+# Project name
+project(EuropeanOptionPricing)
 
-# Set the C++ standard to C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 14)
 
-# Specify the path to the third-party libraries (Google Test)
-set(GTEST_DIR "${CMAKE_SOURCE_DIR}/third_party/googletest")
+# Add the third-party directory to the project
+add_subdirectory(third_party/googletest)
 
-include_directories(${GTEST_DIR}/googletest/include)
+# Add source files
+set(SOURCES
+    src/european_option.h
+    src/option_base.h
+    src/option_type.h
+    src/payoff.h
+    src/pricing-engines/black_scholes.cpp
+    src/pricing-engines/black_scholes.h
+    src/pricing-engines/pricing_engine_base.cpp
+    src/pricing-engines/pricing_engine_base.h
+    src/side.h
+)
 
-add_subdirectory(${GTEST_DIR} ${CMAKE_BINARY_DIR}/third_party/googletest)
+# Add test files
+set(TEST_SOURCES
+    src/tests/test_european_option.cpp
+)
 
-add_executable(test_option src/tests/test_european_option.cpp)
+# Create executable
+add_executable(EuropeanOptionPricing ${SOURCES} ${TEST_SOURCES})
 
-target_link_libraries(test_option gtest gtest_main)
+# Link Google Test with your project
+target_link_libraries(EuropeanOptionPricing gtest gtest_main)
 
-target_sources(test_option PRIVATE src/european_option.cpp src/option_base.cpp)
+# Enable testing
+enable_testing()
 
-target_include_directories(test_option PRIVATE src)
+# Add test
+add_test(NAME TestEuropeanOption COMMAND EuropeanOptionPricing)
+
+# Include directories for your project
+target_include_directories(EuropeanOptionPricing PRIVATE ${PROJECT_SOURCE_DIR}/src)

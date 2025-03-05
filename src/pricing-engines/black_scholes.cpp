@@ -1,4 +1,5 @@
 #include "black_scholes.h"
+#include "../option_base.h"
 #include <cmath>
 
 

@@ -5,7 +5,9 @@ can provide a price and risk sensitivities based on contract parameters.
 Volatility model is defined by the getVolatility() ABM, which computes volatility 
 */
 #pragma once
-#include "../option_base.h"
+
+
+class Option;  // forward declaration
 
 
 class PricingEngine
