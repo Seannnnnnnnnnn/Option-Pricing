@@ -2,9 +2,10 @@
 #include "../option_base.h"
 #include <cmath>
 
+// TODO: update formulae to use dividend yield adjustment.
 
 // Black-Scholes price calculation
-double BlackScholesPricingEngine::price(const Option& option, double S, double t) const {
+double BlackScholesPricingEngine::price(const Option& option, double S, double t=0.0, double q=0.0) const {
     double K = option.getStrike();
     double T = option.getT();
     double r = option.getR(); 
@@ -47,6 +48,7 @@ double BlackScholesPricingEngine::gamma(const Option& option, double S, double t
     return stdNormalPDF(d1) / (S * sigma * sqrt(T - t));
 }
 
+
 // Black-Scholes Theta
 double BlackScholesPricingEngine::theta(const Option& option, double S, double t) const {
     double K = option.getStrike();
@@ -63,6 +65,7 @@ double BlackScholesPricingEngine::theta(const Option& option, double S, double t
     return firstTerm - (type == OptionType::Call ? secondTerm : -secondTerm);
 }
 
+
 // Black-Scholes Vega
 double BlackScholesPricingEngine::vega(const Option& option, double S, double t) const {
     double K = option.getStrike();
@@ -74,6 +77,7 @@ double BlackScholesPricingEngine::vega(const Option& option, double S, double t)
 
     return S * stdNormalPDF(d1) * sqrt(T - t);
 }
+
 
 // Black-Scholes Rho
 double BlackScholesPricingEngine::rho(const Option& option, double S, double t) const {

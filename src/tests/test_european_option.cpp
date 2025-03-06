@@ -3,6 +3,7 @@
 #include "../option_type.h"
 #include "../pricing-engines/black_scholes.h"
 
+
 class EuropeanCallOptionTest : public ::testing::Test {
 protected:
     // Set up the test environment, initializing values for the European Call Option
@@ -13,14 +14,13 @@ protected:
         T_ = 1.0;
         sigma_ = 0.2;
     
-        pricingEngine_ = new BlackScholesPricingEngine(sigma_);
+        pricingEngine_ = std::make_shared<BlackScholesPricingEngine>(sigma_); 
         option_ = new EuropeanOption(strike_, r_, T_, OptionType::Call, pricingEngine_);
     }
 
     // Tear down the environment after each test
     void TearDown() override {
         delete option_;
-        delete pricingEngine_;
     }
 
     double strike_;
@@ -29,7 +29,7 @@ protected:
     double T_;
     double sigma_;
     Option* option_;
-    PricingEngine* pricingEngine_;
+    std::shared_ptr<PricingEngine> pricingEngine_; 
 };
 
 // Test pricing

@@ -1,8 +1,9 @@
 /* 
-base class that all Options inheret from. Note that the option class represents the Option contract, 
-and does not contian any logic related to pricing or volatility.
+Abstract base class that all Options inheret from. Note that the option class represents the Option contract, 
+and thus represents the stored information on a contract that is necessary for its pricing; namely strike, payoff, 
+expiration and reference date.
 
-Pricing and volatility logic is contained in the PricingEngine which is passed to contract.
+To price the contract, clients attach a PricingEngine, which handles vol and pricing logic. 
 */
 #pragma once
 #include <memory>
@@ -10,19 +11,20 @@ Pricing and volatility logic is contained in the PricingEngine which is passed t
 #include "option_type.h"
 #include "pricing-engines/pricing_engine_base.h"
 
+
 class Option 
 {
     protected: 
         double strike_;
-        double r_;
+        double r_;  // represents risk free rate. In reality, this should be some reference rate index like BBSW
         double T_; 
         OptionType type_; 
-        PricingEngine* pricingEngine_;
-        std::unique_ptr<PayOff> payOff_;  // payoff function needed for Monte-Carlo based pricing engines
+        std::shared_ptr<PricingEngine> pricingEngine_;
+        std::unique_ptr<PayOff> payOff_;  // unique ptr, as different subclasses create ptr on instantiation
 
     public: 
-        Option(double strike, double r, double T, OptionType type, PricingEngine* pricingEngine) : 
-            strike_(strike), r_(r), T_(T), type_(type), pricingEngine_(pricingEngine), payOff_(nullptr) {}
+        Option(double strike, double r, double T, OptionType type, std::shared_ptr<PricingEngine> pricingEngine) : 
+            strike_(strike), r_(r), T_(T), type_(type), pricingEngine_(std::move(pricingEngine)), payOff_(nullptr) {}
 
         virtual ~Option() {}; 
 
@@ -31,8 +33,8 @@ class Option
         double getT() const { return T_; }
         OptionType getType() const { return type_; }
         
-        PricingEngine* getPricingEngine() const { return pricingEngine_; } 
-        void setPricingEngine(PricingEngine* pricingEngine) { pricingEngine_ = pricingEngine; }
+        std::shared_ptr<PricingEngine> getPricingEngine() const { return pricingEngine_; } 
+        void setPricingEngine(std::shared_ptr<PricingEngine> pricingEngine) { pricingEngine_ = std::move(pricingEngine); }
         
         // overlays for the pricing engine
         double price(double S, double t) const { return pricingEngine_->price(*this, S, t); }
@@ -43,5 +45,8 @@ class Option
         double rho(double S, double t) const { return pricingEngine_->rho(*this, S, t); }
 
         // overlays for the payoff function
-        double getPayoff(double S) { return (*payOff_)(S); }
+        double PayOff(double S) const { return (*payOff_)(S); }
+
+        // for handling early exercise logic
+        virtual bool canExercise(double t) const = 0;
 };

@@ -6,14 +6,15 @@
 class BlackScholesPricingEngine : public PricingEngine 
 {
 private:
-    const double sigma_;   // constant volatility in BS model
+    double sigma_;   // constant volatility in BS model
 
 public:
     BlackScholesPricingEngine(double sigma) : sigma_(sigma) {}
     
+    void setVolatility(double sigma) { sigma_ = sigma; }
     virtual double getVolatility(double S, double t) const override { return sigma_; }
-    
-    virtual double price(const Option& option, double S, double t) const override; 
+
+    virtual double price(const Option& option, double S, double t, double q) const override; 
 
     virtual double delta(const Option& option, double S, double t) const override;
     virtual double gamma(const Option& option, double S, double t) const override;
