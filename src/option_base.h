@@ -47,6 +47,6 @@ class Option
         // overlays for the payoff function
         double PayOff(double S) const { return (*payOff_)(S); }
 
-        // for handling early exercise logic
+        // for handling early exercise logic in certain pricing engines
         virtual bool canExercise(double t) const = 0;
 };
