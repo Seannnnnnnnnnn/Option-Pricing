@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "testing_constants.h"
 #include "../american_option.h"
 #include "../option_type.h"
 #include "../pricing-engines/lattice_crr.h"
@@ -36,5 +37,5 @@ protected:
 TEST_F(AmericanCallOptionTest, PriceTest) {
     // Expected price calculated manually or via a reference
     double expected_price = 9.7442;
-    EXPECT_NEAR(option_->price(underlying_, 0.0), expected_price, 0.01);
+    EXPECT_NEAR(option_->price(underlying_, 0.0), expected_price, MIN_TICK_SIZE);
 }

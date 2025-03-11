@@ -24,6 +24,7 @@ set(SOURCES
     src/pricing-engines/pricing_engine_base.cpp
     src/pricing-engines/pricing_engine_base.h
     src/side.h
+    src/tests/testing_constants.h
 )
 
 # Add test files
