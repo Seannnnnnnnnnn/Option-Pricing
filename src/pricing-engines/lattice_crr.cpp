@@ -3,7 +3,7 @@
 #include <vector>
 #include <cmath>
 
-// TODO: update to use a lattice structure
+// TODO: update to use the lattice structure
 
 
 double LatticeCRRPricingEngine::price(const Option& option, double S, double t, double q) const {
@@ -46,3 +46,12 @@ double LatticeCRRPricingEngine::price(const Option& option, double S, double t, 
     
     return values[0]; // The root node contains the option price
 }
+
+
+// TODO: implement the greeks
+
+double LatticeCRRPricingEngine::delta(const Option& option, double S, double t) const { return 0.0; }
+double LatticeCRRPricingEngine::gamma(const Option& option, double S, double t) const { return 0.0; }
+double LatticeCRRPricingEngine::theta(const Option& option, double S, double t) const { return 0.0; }
+double LatticeCRRPricingEngine::vega(const Option& option, double S, double t) const { return 0.0; }
+double LatticeCRRPricingEngine::rho(const Option& option, double S, double t) const { return 0.0; }

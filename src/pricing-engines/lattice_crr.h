@@ -23,13 +23,19 @@ class LatticeCRRPricingEngine : public PricingEngine
         std::vector<std::vector<LatticeNode>> lattice_;  // represents underlying lattice structure used for pricing
     
     public: 
-        LatticeCRRPricingEngine(double sigma, size_t num_steps) : 
+        LatticeCRRPricingEngine(double sigma, size_t num_steps=40) : 
             sigma_(sigma), 
             n_(num_steps),
             lattice_(num_steps + 1, std::vector<LatticeNode>(num_steps + 1)) { }
 
         virtual double getVolatility(double S, double t) const override { return sigma_; }
-        virtual double setVolatility(double sigma) { sigma_ = sigma; }
+        virtual void setVolatility(double sigma) { sigma_ = sigma; }
         
         virtual double price(const Option& option, double S, double t, double q) const override; 
+
+        virtual double delta(const Option& option, double S, double t) const override;
+        virtual double gamma(const Option& option, double S, double t) const override;
+        virtual double theta(const Option& option, double S, double t) const override;
+        virtual double vega(const Option& option, double S, double t) const override;
+        virtual double rho(const Option& option, double S, double t) const override;
 };

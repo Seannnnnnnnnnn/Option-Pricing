@@ -50,7 +50,6 @@ class Option
             return pricingEngine_->price(*this, S, t); 
         }
 
-
         // overlays for the payoff function
         double PayOff(double S) const { return (*payOff_)(S); }
 
