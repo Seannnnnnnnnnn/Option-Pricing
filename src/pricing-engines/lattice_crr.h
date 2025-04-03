@@ -33,9 +33,9 @@ class LatticeCRRPricingEngine : public PricingEngine
         
         virtual double price(const Option& option, double S, double t, double q) const override; 
 
-        virtual double delta(const Option& option, double S, double t) const override;
-        virtual double gamma(const Option& option, double S, double t) const override;
-        virtual double theta(const Option& option, double S, double t) const override;
-        virtual double vega(const Option& option, double S, double t) const override;
-        virtual double rho(const Option& option, double S, double t) const override;
+        virtual double delta(const Option& option, double S, double t, double q) const override;
+        virtual double gamma(const Option& option, double S, double t, double q) const override;
+        virtual double theta(const Option& option, double S, double t, double q) const override;
+        virtual double vega(const Option& option, double S, double t, double q) const override;
+        virtual double rho(const Option& option, double S, double t, double q) const override;
 };

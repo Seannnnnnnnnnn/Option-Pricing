@@ -50,8 +50,8 @@ double LatticeCRRPricingEngine::price(const Option& option, double S, double t, 
 
 // TODO: implement the greeks
 
-double LatticeCRRPricingEngine::delta(const Option& option, double S, double t) const { return 0.0; }
-double LatticeCRRPricingEngine::gamma(const Option& option, double S, double t) const { return 0.0; }
-double LatticeCRRPricingEngine::theta(const Option& option, double S, double t) const { return 0.0; }
-double LatticeCRRPricingEngine::vega(const Option& option, double S, double t) const { return 0.0; }
-double LatticeCRRPricingEngine::rho(const Option& option, double S, double t) const { return 0.0; }
+double LatticeCRRPricingEngine::delta(const Option& option, double S, double t, double q) const { return 0.0; }
+double LatticeCRRPricingEngine::gamma(const Option& option, double S, double t, double q) const { return 0.0; }
+double LatticeCRRPricingEngine::theta(const Option& option, double S, double t, double q) const { return 0.0; }
+double LatticeCRRPricingEngine::vega(const Option& option, double S, double t, double q) const { return 0.0; }
+double LatticeCRRPricingEngine::rho(const Option& option, double S, double t, double q) const { return 0.0; }

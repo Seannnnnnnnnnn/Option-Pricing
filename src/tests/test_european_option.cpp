@@ -42,29 +42,29 @@ TEST_F(EuropeanCallOptionTest, PriceTest) {
 // Test Delta
 TEST_F(EuropeanCallOptionTest, DeltaTest) {
     double expected_delta = 0.6368;
-    EXPECT_NEAR(option_->delta(underlying_, 0.0), expected_delta, 0.0001);
+    EXPECT_NEAR(option_->delta(underlying_, 0.0, 0.0), expected_delta, 0.0001);
 }
 
 // Test Gamma
 TEST_F(EuropeanCallOptionTest, GammaTest) {
     double expected_gamma = 0.0187;
-    EXPECT_NEAR(option_->gamma(underlying_, 0.0), expected_gamma, 0.0001);
+    EXPECT_NEAR(option_->gamma(underlying_, 0.0, 0.0), expected_gamma, 0.0001);
 }
 
 // Test Theta
 TEST_F(EuropeanCallOptionTest, ThetaTest) {
     double expected_theta = -6.4140;
-    EXPECT_NEAR(option_->theta(underlying_, 0.0), expected_theta, 0.0001);
+    EXPECT_NEAR(option_->theta(underlying_, 0.0, 0.0), expected_theta, 0.0001);
 }
 
 // Test Rho
 TEST_F(EuropeanCallOptionTest, RhoTest) {
     double expected_rho = 53.2325;
-    EXPECT_NEAR(option_->rho(underlying_, 0.0), expected_rho, 0.01);
+    EXPECT_NEAR(option_->rho(underlying_, 0.0, 0.0), expected_rho, 0.01);
 }
 
 // Test Vega
 TEST_F(EuropeanCallOptionTest, VegaTest) {
     double expected_vega = 37.5240;
-    EXPECT_NEAR(option_->vega(underlying_, 0.0), expected_vega, 0.0001);
+    EXPECT_NEAR(option_->vega(underlying_, 0.0, 0.0), expected_vega, 0.0001);
 }

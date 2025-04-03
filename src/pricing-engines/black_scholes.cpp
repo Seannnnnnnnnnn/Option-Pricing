@@ -22,7 +22,7 @@ double BlackScholesPricingEngine::price(const Option& option, double S, double t
 
 
 // Black-Scholes Delta
-double BlackScholesPricingEngine::delta(const Option& option, double S, double t) const {
+double BlackScholesPricingEngine::delta(const Option& option, double S, double t, double q) const {
     
     double K = option.getStrike();
     double T = option.getT();
@@ -37,7 +37,7 @@ double BlackScholesPricingEngine::delta(const Option& option, double S, double t
 
 
 // Black-Scholes Gamma
-double BlackScholesPricingEngine::gamma(const Option& option, double S, double t) const {
+double BlackScholesPricingEngine::gamma(const Option& option, double S, double t, double q) const {
     double K = option.getStrike();
     double T = option.getT();
     double r = option.getR(); 
@@ -50,7 +50,7 @@ double BlackScholesPricingEngine::gamma(const Option& option, double S, double t
 
 
 // Black-Scholes Theta
-double BlackScholesPricingEngine::theta(const Option& option, double S, double t) const {
+double BlackScholesPricingEngine::theta(const Option& option, double S, double t, double q) const {
     double K = option.getStrike();
     double T = option.getT();
     double r = option.getR(); 
@@ -67,7 +67,7 @@ double BlackScholesPricingEngine::theta(const Option& option, double S, double t
 
 
 // Black-Scholes Vega
-double BlackScholesPricingEngine::vega(const Option& option, double S, double t) const {
+double BlackScholesPricingEngine::vega(const Option& option, double S, double t, double q) const {
     double K = option.getStrike();
     double T = option.getT();
     double r = option.getR(); 
@@ -80,7 +80,7 @@ double BlackScholesPricingEngine::vega(const Option& option, double S, double t)
 
 
 // Black-Scholes Rho
-double BlackScholesPricingEngine::rho(const Option& option, double S, double t) const {
+double BlackScholesPricingEngine::rho(const Option& option, double S, double t, double q) const {
     double K = option.getStrike();
     double T = option.getT();
     double r = option.getR(); 

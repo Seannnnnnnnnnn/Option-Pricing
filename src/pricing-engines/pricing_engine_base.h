@@ -22,9 +22,9 @@ class PricingEngine
         virtual double getVolatility(double S, double t) const = 0;  // ABM for representing volatility at a point in time
         virtual double price(const Option& option, double S, double t, double q=0.0) const = 0;
         
-        virtual double delta(const Option& option, double S, double t) const = 0;
-        virtual double gamma(const Option& option, double S, double t) const = 0;
-        virtual double theta(const Option& option, double S, double t) const = 0;
-        virtual double vega(const Option& option, double S, double t) const = 0;
-        virtual double rho(const Option& option, double S, double t) const = 0;
+        virtual double delta(const Option& option, double S, double t, double q=0.0) const = 0;
+        virtual double gamma(const Option& option, double S, double t, double q=0.0) const = 0;
+        virtual double theta(const Option& option, double S, double t, double q=0.0) const = 0;
+        virtual double vega(const Option& option, double S, double t, double q=0.0) const = 0;
+        virtual double rho(const Option& option, double S, double t, double q=0.0) const = 0;
 };

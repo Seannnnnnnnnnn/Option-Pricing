@@ -37,11 +37,11 @@ class Option
         void setPricingEngine(std::shared_ptr<PricingEngine> pricingEngine) { pricingEngine_ = std::move(pricingEngine); }
         
         // overlays for the pricing engine
-        double delta(double S, double t) const { return pricingEngine_->delta(*this, S, t); }
-        double gamma(double S, double t) const { return pricingEngine_->gamma(*this, S, t); }
-        double theta(double S, double t) const { return pricingEngine_->theta(*this, S, t); }
-        double vega(double S, double t) const { return pricingEngine_->vega(*this, S, t); }
-        double rho(double S, double t) const { return pricingEngine_->rho(*this, S, t); }
+        double delta(double S, double t, double q) const { return pricingEngine_->delta(*this, S, t, q); }
+        double gamma(double S, double t, double q) const { return pricingEngine_->gamma(*this, S, t, q); }
+        double theta(double S, double t, double q) const { return pricingEngine_->theta(*this, S, t, q); }
+        double vega(double S, double t, double q) const { return pricingEngine_->vega(*this, S, t, q); }
+        double rho(double S, double t, double q) const { return pricingEngine_->rho(*this, S, t, q); }
 
         double price(double S, double t) const 
         { 
