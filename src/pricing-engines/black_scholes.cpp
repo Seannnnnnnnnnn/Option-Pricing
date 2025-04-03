@@ -3,7 +3,7 @@
 #include <cmath>
 
 // Black-Scholes price calculation
-double BlackScholesPricingEngine::price(const Option& option, double S, double t, double q) const {
+double BlackScholesPricingEngine::price(const Option& option, double S, double t, double q) {
     double K = option.getStrike();
     double T = option.getT();
     double r = option.getR(); 

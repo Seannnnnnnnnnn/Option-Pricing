@@ -14,7 +14,7 @@ public:
     void setVolatility(double sigma) { sigma_ = sigma; }
     virtual double getVolatility(double S, double t) const override { return sigma_; }
 
-    virtual double price(const Option& option, double S, double t, double q) const override; 
+    virtual double price(const Option& option, double S, double t, double q) override; 
 
     virtual double delta(const Option& option, double S, double t, double q) const override;
     virtual double gamma(const Option& option, double S, double t, double q) const override;

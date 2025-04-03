@@ -3,48 +3,37 @@
 #include <vector>
 #include <cmath>
 
-// TODO: update to use the lattice structure
+// Lattice-based CRR pricing engine using stored intermediate calculations
 
-
-double LatticeCRRPricingEngine::price(const Option& option, double S, double t, double q) const {
-    // Time step size
+double LatticeCRRPricingEngine::price(const Option& option, double S, double t, double q) {
     double dt = option.getT() / static_cast<double>(n_);
-    
-    // Up and down factors (CRR Model)
+
     double u = std::exp(sigma_ * std::sqrt(dt));
     double d = 1.0 / u;
-    
-    // Risk-neutral probability
+
     double disc = std::exp(-option.getR() * dt);
     double p = (std::exp((option.getR() - q) * dt) - d) / (u - d);
-    
-    // Lattice storage
-    std::vector<double> prices(n_ + 1);
-    std::vector<double> values(n_ + 1);
-    
+
     // Compute terminal node prices
     for (size_t i = 0; i <= n_; ++i) {
-        prices[i] = S * std::pow(u, static_cast<int>(n_ - i)) * std::pow(d, static_cast<int>(i));
-        values[i] = option.PayOff(prices[i]); // Compute payoff at expiry
+        lattice_[n_][i].underlyingPrice = S * std::pow(u, n_ - i) * std::pow(d, i);
+        lattice_[n_][i].optionPrice = option.PayOff(lattice_[n_][i].underlyingPrice);
     }
-    
+
     // Step backwards through the tree
-    for (int j = static_cast<int>(n_) - 1; j >= 0; --j) {
-        for (size_t i = 0; i <= static_cast<size_t>(j); ++i) {
-            prices[i] = S * std::pow(u, static_cast<int>(j - i)) * std::pow(d, static_cast<int>(i));
-            
-            // Risk-neutral discounted expectation
-            values[i] = disc * (p * values[i] + (1.0 - p) * values[i + 1]);
-            
-            // Check early exercise
+    for (size_t j = n_; j-- > 0; ) {
+        for (size_t i = 0; i <= j; ++i) {
+            lattice_[j][i].underlyingPrice = S * std::pow(u, j - i) * std::pow(d, i);
+            lattice_[j][i].optionPrice = disc * (p * lattice_[j + 1][i].optionPrice + (1.0 - p) * lattice_[j + 1][i + 1].optionPrice);
+
             if (option.canExercise(j * dt)) {
-                double earlyExercise = option.PayOff(prices[i]);
-                values[i] = std::max(values[i], earlyExercise);
+                double earlyExercise = option.PayOff(lattice_[j][i].underlyingPrice);
+                lattice_[j][i].optionPrice = std::max(lattice_[j][i].optionPrice, earlyExercise);
             }
         }
     }
-    
-    return values[0]; // The root node contains the option price
+
+    return lattice_[0][0].optionPrice;  // Return root node price
 }
 
 
